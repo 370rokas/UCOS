@@ -8,7 +8,7 @@ jmp EnterProtectedMode
 EnterProtectedMode:
 	call EnableA20
 	cli
-	lgdt [gdt_descriptor]		; load gdt
+	lgdt [gdt_descriptor]				; load gdt
 	mov eax, cr0
 	or eax, 1
 	mov cr0, eax
@@ -22,6 +22,9 @@ EnableA20:
 
 [bits 32]
 
+%include "CPUID.asm"
+%include "SimplePaging.asm"
+
 StartProtectedMode:
 
 	mov ax, dataseg
@@ -30,6 +33,20 @@ StartProtectedMode:
 	mov es, ax
 	mov fs, ax
 	mov gs, ax
+
+	call DetectCPUID
+	call DetectLongMode
+	call SetUpIdentityPaging
+	call EditGDT
+	jmp codeseg:Start64Bit
+
+[bits 64]
+
+Start64Bit:
+	mov edi, 0xb8000
+	mov rax, 0x1f201f201f201f20			; background color
+	mov ecx, 500
+	rep stosq
 
 	jmp $
 

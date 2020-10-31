@@ -1,3 +1,9 @@
+
+						; Each descriptor stores information about a single object (e.g. a service routine, a task, a chunk of code or data, whatever)
+						; the CPU might need at some time. If you try, for instance, to load a new value into a segment register, the CPU needs to perform
+						; safety and access control checks to see whether you're actually entitled to access that specific memory area.
+						; https://wiki.osdev.org/GDT_Tutorial
+
 gdt_nulldesc:
 	dd 0
 	dd 0
@@ -23,7 +29,18 @@ gdt_end:
 gdt_descriptor:
 	gdt_size:
 		dw gdt_end - gdt_nulldesc - 1
-		dd gdt_nulldesc
+		dq gdt_nulldesc
 
 codeseg equ gdt_codedesc - gdt_nulldesc
 dataseg equ gdt_datadesc - gdt_nulldesc
+
+[bits 32]
+
+EditGDT:
+	mov [gdt_codedesc + 6], byte 10101111b
+
+	mov [gdt_codedesc + 6], byte 10101111b
+
+	ret
+
+[bits 16]
