@@ -3,3 +3,6 @@ UCOS/bootloader.flp
 .vs/UCOS/v16/Browse.VC.opendb
 UCOS/bootloader.bin
 UCOS/ExtendedProgram.bin
+UCOS/kernel.bin
+UCOS/Kernel.o
+UCOS/kernel.tmp
