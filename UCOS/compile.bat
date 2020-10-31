@@ -6,6 +6,9 @@ nasm bootloader.asm -f bin -o bootloader.bin
 echo Compiling Extension
 nasm ExtendedProgram.asm -f elf64 -o ExtendedProgram.o
 
+echo Compiling Binaries
+nasm Binaries.asm -f elf64 -o Binaries.o
+
 echo Compiling Kernel.cpp
 wsl $WSLENV/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c "Kernel.cpp" -o "Kernel.o"
 
