@@ -6,12 +6,9 @@ mov [BOOT_DISK], dl
 mov bp, 0x7c00
 mov sp, bp
 
-mov bx, StringToOutput
-call PrintString
-
 call ReadDisk
 
-jmp $
+jmp PROGRAM_SPACE
 
 %include "print.asm"
 %include "DiskRead.asm"

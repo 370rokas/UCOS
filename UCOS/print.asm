@@ -9,6 +9,3 @@ PrintString:
 		jmp .Loop
 	.Exit:
 	ret
-
-StringToOutput:
-	db 'Hello there!',0
