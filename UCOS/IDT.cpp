@@ -1,5 +1,7 @@
 #pragma once
 #include "Typedefs.cpp"
+#include "TextPrint.cpp"
+
 struct IDT64 {						// https://wiki.osdev.org/IDT 
 	uint_16 offset_low;
 	uint_16 selector;
@@ -10,8 +12,28 @@ struct IDT64 {						// https://wiki.osdev.org/IDT
 	uint_32 zero;
 };
 
-IDT64 _idt[256];
+extern IDT64 _idt[256];
+extern uint_64 isr1;
+extern "C" void LoadIDT();
 
 void InitialiseIDT() {
+	for (uint_8 t = 0; t < 256; t++) {
+		_idt[1].zero = 0;
+		_idt[1].offset_low = (uint_16)(((uint_64)&isr1 & 0x000000000000ffff));
+		_idt[1].offset_mid = (uint_16)(((uint_64)&isr1 & 0x00000000ffff0000) >> 16);
+		_idt[1].offset_high = (uint_32)(((uint_64)&isr1 & 0xffffffff00000000) >> 32);
+		_idt[1].ist = 0;
+		_idt[1].selector = 0x08;
+		_idt[1].types_attr = 0x8e;
+	}
 
+	outb(0x21, 0xfd);
+	outb(0xa1, 0xff);
+	LoadIDT();
+}
+
+extern "C" void isr1_handler() {
+	PrintString(HexToString(inb(0x60)));
+	outb(0x20, 0x20);
+	outb(0xa0, 0x20);
 }
