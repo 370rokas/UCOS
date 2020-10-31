@@ -1,11 +1,11 @@
 
-PROGRAM_SPACE equ 0x7e00
+PROGRAM_SPACE equ 0x8000
 
 ReadDisk:
 
 	mov ah, 0x02
 	mov bx, PROGRAM_SPACE
-	mov al,64 ; if program doesnt work, possible solution is to increase the sector count
+	mov al,64							; if program doesnt work, possible solution is to increase the sector count
 	mov dl, [BOOT_DISK]
 	mov ch, 0x00
 	mov dh, 0x00
