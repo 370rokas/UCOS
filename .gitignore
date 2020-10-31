@@ -1,3 +1,5 @@
 
 UCOS/bootloader.flp
 .vs/UCOS/v16/Browse.VC.opendb
+UCOS/bootloader.bin
+UCOS/ExtendedProgram.bin
