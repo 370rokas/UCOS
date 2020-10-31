@@ -12,3 +12,5 @@ copy /b bootloader.bin+ExtendedProgram.bin bootloader.flp
 echo Done
 
 pause
+
+:: wsl $WSLENV/
